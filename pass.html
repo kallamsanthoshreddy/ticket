@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Details</title>
+    <style>
+        /* CSS styles for the passenger details form */
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('images/detail.jpg'); /* Replace 'bus.jpg' with your image file */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+        header {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #590505;
+            color: #fff;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 5px 0;
+            background-color: #590505;
+            color: #fff;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            z-index: 1000;
+            font-size: 14px;
+        }
+
+       
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 80%; /* Adjust the width of the form */
+            max-width: 400px; /* Set maximum width for larger screens */
+            height: auto; /* Adjust height dynamically */
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative; /* Ensure relative positioning for absolute positioning of pay button */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: calc(100% - 16px); /* Adjust width of inputs */
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="button"],
+        button.remove-passenger {
+            background-color: #590505;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        button[type="button"]:hover,
+        button.remove-passenger:hover {
+            background-color: #3c0303;
+        }
+
+        /* Style for the pay button */
+        #pay{
+            background-color: #590505;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ticket Reservation System</h1>
+    </header>
+    <h2>Passenger Details</h2>
+    <form id="passengerForm" action="connects.php" method="POST">
+        <div id="passengerFields">
+            <!-- Initial passenger input fields -->
+            <div class="passenger">
+                <label for="name">Name:</label>
+                <input type="text" name="name" required>
+                <br>
+                <label for="age">Age:</label>
+                <input type="number" name="age" required>
+                <br>
+                <label for="gender">Gender:</label>
+                <select name="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <button type="button" class="remove-passenger">Remove Passenger</button>
+            </div>
+        </div>
+        <br>
+        <button type="button" id="addPassenger">Add Passenger</button>
+        <button type="button" id="pay">Pay</button>
+    </form>
+    <footer>
+        <p>&copy; 2024 Booking Website. All rights reserved.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addPassengerButton = document.getElementById('addPassenger');
+            const passengerFields = document.getElementById('passengerFields');
+            const payButton = document.getElementById('pay');
+
+            addPassengerButton.addEventListener('click', function() {
+                // Create a new div element for the new passenger
+                const newPassengerDiv = document.createElement('div');
+                newPassengerDiv.classList.add('passenger');
+
+                // Add input fields for name, age, and gender
+                newPassengerDiv.innerHTML = `
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" required>
+                    <br>
+                    <label for="age">Age:</label>
+                    <input type="number" name="age" required>
+                    <br>
+                    <label for="gender">Gender:</label>
+                    <select name="gender" required>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <button type="button" class="remove-passenger">Remove Passenger</button>
+                `;
+
+                // Append the new passenger div to the passengerFields container
+                passengerFields.appendChild(newPassengerDiv);
+            });
+
+            // Event delegation to handle click events on remove passenger buttons
+            passengerFields.addEventListener('click', function(event) {
+                if (event.target.classList.contains('remove-passenger')) {
+                    const passengerDiv = event.target.closest('.passenger');
+                    passengerDiv.remove();
+                }
+            });
+
+            // Function to check if all required fields are filled
+            function validateForm() {
+                const inputs = document.querySelectorAll('input[type="text"], input[type="number"], select');
+                for (const input of inputs) {
+                    if (!input.value) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            // Redirect to payment.html when clicking the "Pay" button if form is valid
+            payButton.addEventListener('click', function() {
+                if (validateForm()) {
+                    window.location.href = 'payment.html';
+                } else {
+                    alert('Please fill in all details.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('images/reserv.avif'); /* Replace 'hotel-services-background.jpg' with your image file */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0; /* Increased padding */
+            background-color: #590505; /* Header background color */
+            color: #fff; /* Header text color */
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav {
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin-left: 20px;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #eeeded;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #f4f2f2;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-top: 100px; /* Increased margin-top */
+            gap: 40px; /* Increased gap between cards */
+            padding: 0 40px; /* Increased horizontal padding */
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 12px; /* Increased border-radius */
+            padding: 40px; /* Increased padding */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Adjusted box shadow */
+            width: 350px; /* Increased width */
+            height: 350px; /* Increased height */
+            max-width: 100%;
+            text-align: center;
+            text-decoration: none;
+            color: #000;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* Move the card up slightly on hover */
+        }
+
+        .card img {
+            max-width: 100%;
+            border-radius: 12px; /* Increased border-radius */
+        }
+
+        .card h2 {
+            margin-top: 20px; /* Increased margin-top */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0; /* Adjusted padding */
+            background-color: #590505; /* Footer background color */
+            color: #fff; /* Footer text color */
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            z-index: 1000;
+            font-size: 16px; /* Increased font size */
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+            transition: all 0.3s ease; /* Added transition */
+            top: 100%; /* Position dropdown content below button */
+            left: 0; /* Position dropdown content to the left */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #938c8c;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #eff2ef;
+        }
+
+        .dropbtn {
+            padding: 15px 20px; /* Increased padding */
+            font-size: 18px; /* Increased font size */
+        }
+
+        @media screen and (max-width: 600px) {
+            .content {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ticket Reservation System</h1>
+        <nav>
+            <ul>
+                <div class="dropdown">
+                    <button onclick="toggleMenu()" class="dropbtn">&#9776; Menu</button>
+                    <div id="menuDropdown" class="dropdown-content">
+                        <a href="contact.html">Contact us</a>
+                        <a href="login.html">Log out</a>
+                    </div>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <a href="trains.html" class="card">
+            <img src="images/tra.jpg" alt="Train Image">
+            <h2>Trains</h2>
+        </a>
+        <a href="buses.html" class="card">
+            <img src="images/bu.jpg" alt="Bus Image">
+            <h2>Buses</h2>
+        </a>
+        <a href="flights.html" class="card">
+            <img src="images/flt.jpg" alt="Flight Image">
+            <h2>Flights</h2>
+        </a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Booking Website. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            var dropdownContent = document.getElementById("menuDropdown");
+            dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
+        }
+    </script>
+</body>
+</html>

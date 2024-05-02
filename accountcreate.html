@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body {
+            margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-image: url('images/login.avif'); /* Replace 'bus.jpg' with your image file */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        position: relative;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #590505;
+            color: #fff;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 5px 0;
+            margin-top: auto;
+            background-color: #590505;
+            color: #fff;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            z-index: 1000;
+            font-size: 14px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Adjusted to 100vh */
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 40px; /* Increased padding */
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            width: 400px; /* Increased width */
+            max-width: 100%; /* Ensure it doesn't exceed viewport width */
+            height: auto; /* Adjusted to auto */
+        }
+
+        .form-container h2 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 24px; /* Increased font size */
+            margin-bottom: 20px; /* Added margin-bottom */
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container input {
+            margin-bottom: 20px; /* Increased margin */
+            padding: 15px; /* Increased padding */
+            font-size: 18px; /* Increased font size */
+            border-radius: 5px; /* Rounded corners */
+            border: 1px solid #ccc; /* Border color */
+            box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+            width: calc(100% - 30px); /* Set width to 100% minus padding (15px on each side) */
+        }
+
+        .form-container button {
+            padding: 15px; /* Increased padding */
+            background-color: #590505;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-bottom: 15px; /* Added margin-bottom */
+        }
+
+        .form-container button:hover {
+            background-color: #590505;
+        }
+
+        .form-container p {
+            margin-top: 15px; /* Added margin-top */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ticket Reservation System</h1>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+            <h2>Create Account</h2>
+            <form id="createAccountForm">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <input type="password" id="confirmPassword" placeholder="Re-enter Password" required>
+                <button type="submit">Create Account</button>
+            </form>
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Booking Website. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('createAccountForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Perform account creation logic here
+            // For demonstration purposes, you can display a success message
+            alert('Account created successfully!');
+            // Optionally, redirect to another page
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

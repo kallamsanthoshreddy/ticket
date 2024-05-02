@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Search Results</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            background-image: url('images/busres.jpg'); /* Add your background image URL here */
+            background-size: cover; /* Ensure the background image covers the entire viewport */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Do not repeat the background image */
+        }
+
+        header {
+            background-color: #590505;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px; /* Add margin to create distance from the search bar */
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 140px); /* Adjusted to accommodate header and footer heights */
+        }
+
+        section {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px; /* Adjusted to limit the width of flight cards */
+            margin: 0 auto; /* Center the section horizontally */
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px; /* Add margin to create distance from the search bar */
+        }
+
+        form input[type="text"] {
+            width: 200px;
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        form button {
+            background-color: #590505;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #590505;
+        }
+
+        footer {
+            background-color: #590505;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        /* Style for flight card */
+        .flight-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: calc(50% - 20px); /* Adjusted to fit two flight cards per row */
+            max-width: 400px; /* Maximum width for larger screens */
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column; /* Changed to vertical layout */
+            justify-content: space-between; /* Adjusted for vertical layout */
+            position: relative; /* Add position relative to the card */
+        }
+
+        /* Style for flight details */
+        .flight-details {
+            text-align: left; /* Align text to the left */
+        }
+
+        .flight-details h2 {
+            margin-top: 0;
+        }
+
+        .flight-details p {
+            margin: 5px 0;
+        }
+
+        .book-button {
+            background-color: #590505;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            align-self: flex-end; /* Align button to the bottom right */
+        }
+
+        /* Style for flight image */
+        .flight-image {
+            width: 100%; /* Set image width to 100% */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px; /* Add border radius */
+        }
+
+        /* Style for filter bar */
+        #filterBar {
+            text-align: center;
+            margin-bottom: 20px; /* Add margin to create distance from the search bar */
+        }
+
+        #filterBar label,
+        #filterBar select,
+        #filterBar button {
+            margin-right: 10px;
+        }
+
+        #sort1,#sort2{
+            color: white;
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bus Search Results</h1>
+    </header>
+
+    <!-- Search form with additional margin-top -->
+    <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="Search buses...">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Filter bar -->
+    <div id="filterBar">
+        <label for="sortByRating" id="sort1">Sort by Rating:</label>
+        <select id="sortByRating">
+            <option value="highToLow">High to Low</option>
+            <option value="lowToHigh">Low to High</option>
+        </select>
+        
+        <label for="sortByPrice" id="sort2">Sort by Price:</label>
+        <select id="sortByPrice">
+            <option value="lowToHigh">Low to High</option>
+            <option value="highToLow">High to Low</option>
+        </select>
+        
+        <button id="applyFilters">Apply Filters</button>
+    </div>
+
+    <main>
+        <section id="results">
+            <!-- Flight search results will be displayed here -->
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Flight Company. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample data for demonstration
+        const flightResults = [
+            { name: "Morning Star", price: "800", rating: "4.5", seats: "29", image: "images/Morning.jpeg" },
+            { name: "Orange Travels", price: "1000", rating: "4.2", seats: "2", image: "images/Orange.jpeg" },
+            { name: "Sri Krishna", price: "900", rating: "4.7", seats: "15", image: "images/Krishna.jpeg" },
+            { name: "Venkataramana", price: "700", rating: "3.7", seats: "35", image: "images/Ramana.jpg" },
+            { name: "IRA Travels", price: "1900", rating: "4.2", seats: "13", image: "images/IRA.jpeg" },
+            { name: "Medikonda", price: "2900", rating: "4.9", seats: "18", image: "images/Medi.jpeg" }
+        ];
+    
+        // Function to display flight search results
+        function displayFlightResults(results) {
+            const resultsSection = document.getElementById('results');
+    
+            // Clear existing content
+            resultsSection.innerHTML = '';
+    
+            // Loop through the flight results and create HTML elements to display them
+            results.forEach(flight => {
+                const flightCard = document.createElement('div');
+                flightCard.classList.add('flight-card');
+    
+                flightCard.innerHTML = `
+                    <img src="${flight.image}" alt="${flight.name}" class="flight-image">
+                    <div class="flight-details">
+                        <h2>${flight.name}</h2>
+                        <p><strong>Price:</strong> ${flight.price}</p>
+                        <p><strong>Rating:</strong> ${flight.rating}</p>
+                        <p><strong>Seats:</strong> ${flight.seats}</p>
+                    </div>
+                    <button class="book-button">Book</button>
+                `;
+    
+                // Add event listener to the book button
+                flightCard.querySelector('.book-button').addEventListener('click', function() {
+                    // Redirect to passenger.html page
+                    window.location.href = 'passenger.html';
+                });
+    
+                resultsSection.appendChild(flightCard);
+            });
+        }
+    
+        // Display flight search results when the page loads
+        window.addEventListener('load', function() {
+            displayFlightResults(flightResults);
+        });
+    
+        // Search form submission event listener
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+            const searchInput = document.getElementById('searchInput').value.toLowerCase(); // Get search input value
+            const filteredResults = flightResults.filter(flight => flight.name.toLowerCase().includes(searchInput)); // Filter results based on search input
+            displayFlightResults(filteredResults); // Display filtered results
+        });
+    
+        // Apply filters button event listener
+        document.getElementById('applyFilters').addEventListener('click', function() {
+            // Get selected sorting options
+            const sortByRating = document.getElementById('sortByRating').value;
+            const sortByPrice = document.getElementById('sortByPrice').value;
+    
+            // Apply sorting based on selected options
+            let sortedResults = [...flightResults]; // Create a copy of flightResults array
+    
+            if (sortByRating === 'highToLow') {
+                sortedResults.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating)); // Sort by rating high to low
+            } else {
+                sortedResults.sort((a, b) => parseFloat(a.rating) - parseFloat(b.rating)); // Sort by rating low to high
+            }
+    
+            if (sortByPrice === 'lowToHigh') {
+                sortedResults.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)); // Sort by price low to high
+            } else {
+                sortedResults.sort((a, b) => parseFloat(b.price) - parseFloat(a.price)); // Sort by price high to low
+            }
+    
+            displayFlightResults(sortedResults); // Display sorted results
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Tickets</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-image: url('images/bus.jpg'); /* Replace 'bus.jpg' with your image file */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    header {
+        text-align: center;
+        padding: 20px 0; /* Increased padding */
+    }
+
+    header h1 {
+        margin: 0;
+    }
+
+    nav {
+        text-align: left;
+        margin-top: 10px;
+        margin-left: auto; /* Align to the right by setting margin-left to auto */
+    }
+
+    .home-button {
+        background: rgb(235, 235, 236);
+        border: none;
+        color: #070707;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 10px 20px; /* Increased padding */
+        font-size: 18px; /* Increased font size */
+        margin-right: 40px;
+        margin-left: 10px; /* Adjusted margin to move the button further to the right */
+        position: relative;
+            display: inline-block;
+    }
+
+    .home-button:hover {
+        color: #490505;
+    }
+
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 8px;
+        padding: 30px; /* Increased padding */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 450px; /* Increased width */
+        margin-top: 50px;
+        align-content: center; /* Align content to the center */
+        text-align: center; /* Align text to the center */
+    }
+
+    .card-header {
+        font-size: 24px; /* Increased font size */
+        margin-bottom: 20px; /* Increased margin */
+    }
+
+    .form-group {
+        margin-bottom: 20px; /* Increased margin */
+        text-align: center; /* Align text to the center */
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 10px; /* Increased margin */
+        text-align: left; /* Align text to the left */
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px; /* Increased padding */
+        font-size: 16px; /* Increased font size */
+    }
+
+    .button-group {
+        margin-top: 30px; /* Increased margin */
+        text-align: center;
+    }
+
+    .button-group button {
+        margin-left: 15px; /* Increased margin */
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px 0; /* Increased padding */
+        margin-bottom: bottom;
+    }
+
+    section h2 {
+        color: #fff; /* Set title color to white */
+    }
+
+</style>
+
+<body>
+<header>
+    <h1>Ticket Reservation System</h1>
+    <nav>
+        <button class="home-button" onclick="goToHome()">Home</button> <!-- Updated navigation button -->
+    </nav>
+</header>
+
+<div class="content">
+    <section>
+        <h2>Bus Tickets</h2> <!-- Title color set to white -->
+    </section>
+
+    <section id="search">
+        <div class="card">
+            <div class="card-header">Search for Tickets</div>
+            <form id="searchForm">
+                <div class="form-group">
+                    <label for="departure" style="text-align: left;">Departure:</label>
+                    <input type="text" id="departure" name="departure" placeholder="Enter departure city">
+                </div>
+
+                <div class="form-group">
+                    <label for="destination" style="text-align: left;">Destination:</label>
+                    <input type="text" id="destination" name="destination" placeholder="Enter destination city">
+                </div>
+
+                <div class="form-group">
+                    <label for="travelDate" style="text-align: left;">Travel Date:</label>
+                    <input type="text" id="travelDate" name="travelDate" placeholder="Select travel date" readonly>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" id="reverseButton">Reverse</button>
+                    <button type="submit" id="searchButton" disabled>Search</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section>
+        <div id="calendar"></div>
+    </section>
+
+    <section id="results"></section>
+</div>
+
+<footer>
+    <p>&copy; 2024 Booking Website. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    function goToHome() {
+        window.location.href = "index.html"; // Replace "index.html" with the actual home page URL
+    }
+
+    flatpickr("#travelDate", {
+        dateFormat: "Y-m-d",
+        minDate: "today"
+    });
+
+    const departureInput = document.getElementById('departure');
+    const destinationInput = document.getElementById('destination');
+    const travelDateInput = document.getElementById('travelDate');
+    const searchButton = document.getElementById('searchButton');
+
+    // Add event listeners
+    departureInput.addEventListener('input', validateForm);
+    destinationInput.addEventListener('input', validateForm);
+    travelDateInput.addEventListener('input', validateForm);
+    document.getElementById('searchForm').addEventListener('submit', handleFormSubmit);
+    document.getElementById('reverseButton').addEventListener('click', reverseInputValues);
+
+    function handleFormSubmit(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        // Get form data
+        const departure = departureInput.value;
+        const destination = destinationInput.value;
+        const travelDate = travelDateInput.value;
+
+        // Construct URL with form data as query parameters
+        const url = `busresult.html?departure=${encodeURIComponent(departure)}&destination=${encodeURIComponent(destination)}&travelDate=${encodeURIComponent(travelDate)}`;
+
+        // Redirect user to busresults page with form data
+        window.location.href = url;
+    }
+
+    function reverseInputValues() {
+        const temp = departureInput.value;
+        departureInput.value = destinationInput.value;
+        destinationInput.value = temp;
+        validateForm();
+    }
+
+    function validateForm() {
+        if (departureInput.value.trim() !== '' && destinationInput.value.trim() !== '' && travelDateInput.value.trim() !== '') {
+            searchButton.disabled = false;
+        } else {
+            searchButton.disabled = true;
+        }
+    }
+</script>
+</body>
+</html>
